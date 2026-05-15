@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VagasRouteImport } from './routes/vagas'
 import { Route as TestesRouteImport } from './routes/testes'
+import { Route as RecrutamentoRouteImport } from './routes/recrutamento'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VagasJobIdRouteImport } from './routes/vagas.$jobId'
@@ -23,6 +24,11 @@ const VagasRoute = VagasRouteImport.update({
 const TestesRoute = TestesRouteImport.update({
   id: '/testes',
   path: '/testes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecrutamentoRoute = RecrutamentoRouteImport.update({
+  id: '/recrutamento',
+  path: '/recrutamento',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -44,6 +50,7 @@ const VagasJobIdRoute = VagasJobIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/recrutamento': typeof RecrutamentoRoute
   '/testes': typeof TestesRoute
   '/vagas': typeof VagasRouteWithChildren
   '/vagas/$jobId': typeof VagasJobIdRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/recrutamento': typeof RecrutamentoRoute
   '/testes': typeof TestesRoute
   '/vagas': typeof VagasRouteWithChildren
   '/vagas/$jobId': typeof VagasJobIdRoute
@@ -59,21 +67,36 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/recrutamento': typeof RecrutamentoRoute
   '/testes': typeof TestesRoute
   '/vagas': typeof VagasRouteWithChildren
   '/vagas/$jobId': typeof VagasJobIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/testes' | '/vagas' | '/vagas/$jobId'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/recrutamento'
+    | '/testes'
+    | '/vagas'
+    | '/vagas/$jobId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/testes' | '/vagas' | '/vagas/$jobId'
-  id: '__root__' | '/' | '/admin' | '/testes' | '/vagas' | '/vagas/$jobId'
+  to: '/' | '/admin' | '/recrutamento' | '/testes' | '/vagas' | '/vagas/$jobId'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/recrutamento'
+    | '/testes'
+    | '/vagas'
+    | '/vagas/$jobId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  RecrutamentoRoute: typeof RecrutamentoRoute
   TestesRoute: typeof TestesRoute
   VagasRoute: typeof VagasRouteWithChildren
 }
@@ -92,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/testes'
       fullPath: '/testes'
       preLoaderRoute: typeof TestesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recrutamento': {
+      id: '/recrutamento'
+      path: '/recrutamento'
+      fullPath: '/recrutamento'
+      preLoaderRoute: typeof RecrutamentoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -131,9 +161,20 @@ const VagasRouteWithChildren = VagasRoute._addFileChildren(VagasRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  RecrutamentoRoute: RecrutamentoRoute,
   TestesRoute: TestesRoute,
   VagasRoute: VagasRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

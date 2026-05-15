@@ -1,4 +1,4 @@
-// localStorage-backed store for jobs, applications and assessments
+// localStorage-backed store
 export type Job = {
   id: string;
   title: string;
@@ -13,41 +13,55 @@ export type Job = {
 
 export type Application = {
   id: string;
-  jobId: string;
+  area: string;
+  jobId?: string;
   name: string;
   email: string;
-  phone: string;
-  experience: string;
-  message: string;
-  testScore?: number;
+  discord: string;
+  age: string;
+  written: Record<string, string>;
+  quizScore?: number;
+  quizTotal?: number;
+  simulationLog?: { from: "user" | "agent"; text: string; at: string }[];
   status: "new" | "reviewing" | "interview" | "approved" | "rejected";
   createdAt: string;
 };
 
-const JOBS_KEY = "ss_jobs";
-const APPS_KEY = "ss_applications";
+const JOBS_KEY = "ss_jobs_v2";
+const APPS_KEY = "ss_applications_v2";
 
 const seedJobs: Job[] = [
   {
-    id: "j1",
-    title: "Coordenador(a) de Equipes",
-    area: "Operações",
-    location: "Híbrido — São Paulo",
-    type: "CLT",
+    id: "atendente",
+    title: "Atendente",
+    area: "Atendimento",
+    location: "Remoto · Discord",
+    type: "Voluntário",
     description:
-      "Liderar equipes alocadas em clientes, garantindo entrega coordenada e eficiente.",
-    requirements: "Experiência em liderança, comunicação clara, foco em resultados.",
+      "Atender membros via tickets no Discord, com cordialidade e agilidade, garantindo a melhor experiência possível.",
+    requirements: "Boa escrita, paciência, disponibilidade mínima de 2h/dia.",
     createdAt: new Date().toISOString(),
     active: true,
   },
   {
-    id: "j2",
-    title: "Analista de Recrutamento",
-    area: "Pessoas",
-    location: "Remoto",
-    type: "PJ",
-    description: "Recrutar, treinar e preparar talentos para projetos da Shared Solve.",
-    requirements: "Vivência em R&S, técnicas de entrevista, organização.",
+    id: "moderador",
+    title: "Moderador",
+    area: "Moderação",
+    location: "Remoto · Discord",
+    type: "Voluntário",
+    description: "Garantir o cumprimento das regras e manter o servidor saudável.",
+    requirements: "Maturidade, imparcialidade, boa comunicação.",
+    createdAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: "coordenador",
+    title: "Coordenador de Equipe",
+    area: "Coordenação",
+    location: "Remoto · Discord",
+    type: "Contrato",
+    description: "Liderar squads de atendimento e moderação alocadas em clientes.",
+    requirements: "Liderança, organização, experiência prévia em equipes.",
     createdAt: new Date().toISOString(),
     active: true,
   },
@@ -62,7 +76,6 @@ function read<T>(key: string, fallback: T): T {
     return fallback;
   }
 }
-
 function write<T>(key: string, value: T) {
   if (typeof window === "undefined") return;
   localStorage.setItem(key, JSON.stringify(value));
@@ -76,38 +89,40 @@ export function getJobs(): Job[] {
   }
   return jobs;
 }
-
 export function saveJob(job: Job) {
   const jobs = getJobs();
-  const idx = jobs.findIndex((j) => j.id === job.id);
-  if (idx >= 0) jobs[idx] = job;
+  const i = jobs.findIndex((j) => j.id === job.id);
+  if (i >= 0) jobs[i] = job;
   else jobs.unshift(job);
   write(JOBS_KEY, jobs);
 }
-
 export function deleteJob(id: string) {
-  write(
-    JOBS_KEY,
-    getJobs().filter((j) => j.id !== id),
-  );
+  write(JOBS_KEY, getJobs().filter((j) => j.id !== id));
 }
-
-export function getJob(id: string): Job | undefined {
+export function getJob(id: string) {
   return getJobs().find((j) => j.id === id);
 }
 
 export function getApplications(): Application[] {
   return read<Application[]>(APPS_KEY, []);
 }
-
 export function saveApplication(app: Application) {
   const apps = getApplications();
-  const idx = apps.findIndex((a) => a.id === app.id);
-  if (idx >= 0) apps[idx] = app;
+  const i = apps.findIndex((a) => a.id === app.id);
+  if (i >= 0) apps[i] = app;
   else apps.unshift(app);
   write(APPS_KEY, apps);
 }
-
 export function genId() {
   return Math.random().toString(36).slice(2, 10);
+}
+
+// Draft for in-progress recruitment
+const DRAFT_KEY = "ss_app_draft";
+export function getDraft(): Partial<Application> | null {
+  return read<Partial<Application> | null>(DRAFT_KEY, null);
+}
+export function setDraft(d: Partial<Application> | null) {
+  if (!d) localStorage.removeItem(DRAFT_KEY);
+  else write(DRAFT_KEY, d);
 }
