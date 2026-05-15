@@ -239,10 +239,10 @@ function ApplicationsPanel() {
               <div>
                 <p className="font-medium">{a.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {a.email} {a.phone && `· ${a.phone}`}
+                  {a.email} {a.discord && `· ${a.discord}`}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Vaga: {job?.title ?? "—"}
+                  Área: {a.area}{job ? ` · ${job.title}` : ""}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -267,14 +267,24 @@ function ApplicationsPanel() {
                 </Select>
               </div>
             </div>
-            {a.experience && (
-              <p className="mt-3 text-sm text-muted-foreground">
-                Experiência: {a.experience}
+            {typeof a.quizScore === "number" && (
+              <p className="mt-3 text-xs text-muted-foreground">
+                Prova: <span className="text-foreground">{a.quizScore}/{a.quizTotal}</span>
               </p>
             )}
-            {a.message && (
-              <p className="mt-2 whitespace-pre-line rounded bg-muted p-3 text-sm">
-                {a.message}
+            {a.written && Object.keys(a.written).length > 0 && (
+              <div className="mt-3 space-y-2 rounded bg-muted/40 p-3 text-xs">
+                {Object.entries(a.written).map(([k, v]) => (
+                  <div key={k}>
+                    <p className="font-medium text-muted-foreground">{k}</p>
+                    <p className="whitespace-pre-line">{v}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {a.simulationLog && a.simulationLog.length > 0 && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Simulação: {a.simulationLog.length} mensagens trocadas
               </p>
             )}
           </Card>
