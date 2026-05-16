@@ -10,9 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VagasRouteImport } from './routes/vagas'
+import { Route as SupervisorRouteImport } from './routes/supervisor'
 import { Route as SimulacaoRouteImport } from './routes/simulacao'
+import { Route as RecrutamentoInternoRouteImport } from './routes/recrutamento-interno'
 import { Route as RecrutamentoRouteImport } from './routes/recrutamento'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AtendimentoRouteImport } from './routes/atendimento'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,9 +26,19 @@ const VagasRoute = VagasRouteImport.update({
   path: '/vagas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupervisorRoute = SupervisorRouteImport.update({
+  id: '/supervisor',
+  path: '/supervisor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SimulacaoRoute = SimulacaoRouteImport.update({
   id: '/simulacao',
   path: '/simulacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecrutamentoInternoRoute = RecrutamentoInternoRouteImport.update({
+  id: '/recrutamento-interno',
+  path: '/recrutamento-interno',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecrutamentoRoute = RecrutamentoRouteImport.update({
@@ -36,6 +49,11 @@ const RecrutamentoRoute = RecrutamentoRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AtendimentoRoute = AtendimentoRouteImport.update({
@@ -63,9 +81,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/atendimento': typeof AtendimentoRoute
+  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/recrutamento': typeof RecrutamentoRoute
+  '/recrutamento-interno': typeof RecrutamentoInternoRoute
   '/simulacao': typeof SimulacaoRoute
+  '/supervisor': typeof SupervisorRoute
   '/vagas': typeof VagasRouteWithChildren
   '/vagas/$jobId': typeof VagasJobIdRoute
 }
@@ -73,9 +94,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/atendimento': typeof AtendimentoRoute
+  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/recrutamento': typeof RecrutamentoRoute
+  '/recrutamento-interno': typeof RecrutamentoInternoRoute
   '/simulacao': typeof SimulacaoRoute
+  '/supervisor': typeof SupervisorRoute
   '/vagas': typeof VagasRouteWithChildren
   '/vagas/$jobId': typeof VagasJobIdRoute
 }
@@ -84,9 +108,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/atendimento': typeof AtendimentoRoute
+  '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/recrutamento': typeof RecrutamentoRoute
+  '/recrutamento-interno': typeof RecrutamentoInternoRoute
   '/simulacao': typeof SimulacaoRoute
+  '/supervisor': typeof SupervisorRoute
   '/vagas': typeof VagasRouteWithChildren
   '/vagas/$jobId': typeof VagasJobIdRoute
 }
@@ -96,9 +123,12 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/atendimento'
+    | '/dashboard'
     | '/login'
     | '/recrutamento'
+    | '/recrutamento-interno'
     | '/simulacao'
+    | '/supervisor'
     | '/vagas'
     | '/vagas/$jobId'
   fileRoutesByTo: FileRoutesByTo
@@ -106,9 +136,12 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/atendimento'
+    | '/dashboard'
     | '/login'
     | '/recrutamento'
+    | '/recrutamento-interno'
     | '/simulacao'
+    | '/supervisor'
     | '/vagas'
     | '/vagas/$jobId'
   id:
@@ -116,9 +149,12 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/atendimento'
+    | '/dashboard'
     | '/login'
     | '/recrutamento'
+    | '/recrutamento-interno'
     | '/simulacao'
+    | '/supervisor'
     | '/vagas'
     | '/vagas/$jobId'
   fileRoutesById: FileRoutesById
@@ -127,9 +163,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AtendimentoRoute: typeof AtendimentoRoute
+  DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   RecrutamentoRoute: typeof RecrutamentoRoute
+  RecrutamentoInternoRoute: typeof RecrutamentoInternoRoute
   SimulacaoRoute: typeof SimulacaoRoute
+  SupervisorRoute: typeof SupervisorRoute
   VagasRoute: typeof VagasRouteWithChildren
 }
 
@@ -142,11 +181,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VagasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/supervisor': {
+      id: '/supervisor'
+      path: '/supervisor'
+      fullPath: '/supervisor'
+      preLoaderRoute: typeof SupervisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/simulacao': {
       id: '/simulacao'
       path: '/simulacao'
       fullPath: '/simulacao'
       preLoaderRoute: typeof SimulacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recrutamento-interno': {
+      id: '/recrutamento-interno'
+      path: '/recrutamento-interno'
+      fullPath: '/recrutamento-interno'
+      preLoaderRoute: typeof RecrutamentoInternoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recrutamento': {
@@ -161,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/atendimento': {
@@ -208,11 +268,24 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AtendimentoRoute: AtendimentoRoute,
+  DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   RecrutamentoRoute: RecrutamentoRoute,
+  RecrutamentoInternoRoute: RecrutamentoInternoRoute,
   SimulacaoRoute: SimulacaoRoute,
+  SupervisorRoute: SupervisorRoute,
   VagasRoute: VagasRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
