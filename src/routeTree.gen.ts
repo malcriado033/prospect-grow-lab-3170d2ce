@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VagasRouteImport } from './routes/vagas'
 import { Route as SimulacaoRouteImport } from './routes/simulacao'
 import { Route as RecrutamentoRouteImport } from './routes/recrutamento'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VagasJobIdRouteImport } from './routes/vagas.$jobId'
@@ -29,6 +30,11 @@ const SimulacaoRoute = SimulacaoRouteImport.update({
 const RecrutamentoRoute = RecrutamentoRouteImport.update({
   id: '/recrutamento',
   path: '/recrutamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -50,6 +56,7 @@ const VagasJobIdRoute = VagasJobIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/login': typeof LoginRoute
   '/recrutamento': typeof RecrutamentoRoute
   '/simulacao': typeof SimulacaoRoute
   '/vagas': typeof VagasRouteWithChildren
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/login': typeof LoginRoute
   '/recrutamento': typeof RecrutamentoRoute
   '/simulacao': typeof SimulacaoRoute
   '/vagas': typeof VagasRouteWithChildren
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/login': typeof LoginRoute
   '/recrutamento': typeof RecrutamentoRoute
   '/simulacao': typeof SimulacaoRoute
   '/vagas': typeof VagasRouteWithChildren
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/login'
     | '/recrutamento'
     | '/simulacao'
     | '/vagas'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/login'
     | '/recrutamento'
     | '/simulacao'
     | '/vagas'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/login'
     | '/recrutamento'
     | '/simulacao'
     | '/vagas'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  LoginRoute: typeof LoginRoute
   RecrutamentoRoute: typeof RecrutamentoRoute
   SimulacaoRoute: typeof SimulacaoRoute
   VagasRoute: typeof VagasRouteWithChildren
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/recrutamento'
       fullPath: '/recrutamento'
       preLoaderRoute: typeof RecrutamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -167,6 +187,7 @@ const VagasRouteWithChildren = VagasRoute._addFileChildren(VagasRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  LoginRoute: LoginRoute,
   RecrutamentoRoute: RecrutamentoRoute,
   SimulacaoRoute: SimulacaoRoute,
   VagasRoute: VagasRouteWithChildren,
