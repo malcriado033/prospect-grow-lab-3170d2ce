@@ -30,55 +30,66 @@
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
   --color-discord: var(--discord);
+
+  /* Empresas parceiras */
+  --color-brpay: var(--brpay);
+  --color-pagci: var(--pagci);
+  --color-allbay: var(--allbay);
+  --color-ease: var(--ease);
+
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", "Inter", sans-serif;
 }
 
-/* Tema único (dark-first) */
 :root {
   --radius: 0.75rem;
 
-  --background: oklch(0.06 0 0);          /* preto puro */
-  --foreground: oklch(0.98 0 0);          /* branco */
+  --background: oklch(0.05 0 0);
+  --foreground: oklch(0.98 0 0);
 
-  --card: oklch(0.10 0 0);                /* preto levemente elevado */
+  --card: oklch(0.09 0 0);
   --card-foreground: oklch(0.98 0 0);
 
-  --popover: oklch(0.10 0 0);
+  --popover: oklch(0.09 0 0);
   --popover-foreground: oklch(0.98 0 0);
 
-  /* botão principal: branco sobre preto, estilo easebot */
   --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.08 0 0);
+  --primary-foreground: oklch(0.05 0 0);
 
-  --secondary: oklch(0.14 0 0);
+  --secondary: oklch(0.13 0 0);
   --secondary-foreground: oklch(0.98 0 0);
 
-  --muted: oklch(0.14 0 0);
-  --muted-foreground: oklch(0.62 0 0);
+  --muted: oklch(0.13 0 0);
+  --muted-foreground: oklch(0.60 0 0);
 
-  /* Verde apenas para detalhes */
   --accent: oklch(0.78 0.18 150);
-  --accent-foreground: oklch(0.06 0 0);
+  --accent-foreground: oklch(0.05 0 0);
 
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
 
-  --border: oklch(1 0 0 / 8%);
+  --border: oklch(1 0 0 / 7%);
   --input: oklch(1 0 0 / 10%);
   --ring: oklch(0.78 0.18 150);
 
   --discord: oklch(0.62 0.16 270);
 
-  --shadow-glow: 0 0 0 1px oklch(1 0 0 / 6%), 0 30px 80px -30px oklch(0.78 0.18 150 / 0.25);
+  /* Empresas parceiras */
+  --brpay: oklch(0.70 0.15 240);
+  --pagci: oklch(0.75 0.14 80);
+  --allbay: oklch(0.65 0.16 290);
+  --ease: oklch(0.72 0.14 195);
 
-  --sidebar: oklch(0.08 0 0);
+  --shadow-glow: 0 0 0 1px oklch(1 0 0 / 5%), 0 30px 80px -30px oklch(0.78 0.18 150 / 0.20);
+  --shadow-card: 0 0 0 1px oklch(1 0 0 / 4%), 0 4px 24px oklch(0 0 0 / 0.4);
+
+  --sidebar: oklch(0.07 0 0);
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.78 0.18 150);
-  --sidebar-primary-foreground: oklch(0.06 0 0);
-  --sidebar-accent: oklch(0.14 0 0);
+  --sidebar-primary-foreground: oklch(0.05 0 0);
+  --sidebar-accent: oklch(0.13 0 0);
   --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-border: oklch(1 0 0 / 7%);
   --sidebar-ring: oklch(0.78 0.18 150);
 }
 
@@ -90,6 +101,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4 {
@@ -98,7 +110,7 @@
   }
 }
 
-/* Botão pílula estilo easebot */
+/* ===== Buttons ===== */
 .btn-pill {
   display: inline-flex;
   align-items: center;
@@ -106,11 +118,13 @@
   border-radius: 9999px;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  font-size: 0.875rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
+  cursor: pointer;
 }
 .btn-pill:hover { transform: translateY(-1px); }
+.btn-pill:active { transform: translateY(0); }
 
 .btn-pill-primary {
   background: var(--color-foreground);
@@ -118,10 +132,16 @@
 }
 .btn-pill-primary:hover { background: oklch(0.88 0 0); }
 
+.btn-pill-accent {
+  background: var(--color-accent);
+  color: var(--accent-foreground);
+}
+.btn-pill-accent:hover { background: oklch(0.72 0.18 150); }
+
 .btn-pill-outline {
   background: transparent;
   color: var(--color-foreground);
-  border-color: oklch(1 0 0 / 18%);
+  border-color: oklch(1 0 0 / 12%);
 }
 .btn-pill-outline:hover { background: oklch(1 0 0 / 5%); }
 
@@ -131,28 +151,28 @@
 }
 .btn-pill-discord:hover { background: oklch(0.55 0.16 270); }
 
-/* Pill nav like easebot */
+/* ===== Nav pill ===== */
 .nav-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
   padding: 0.35rem;
   border-radius: 9999px;
-  background: oklch(0.10 0 0);
+  background: oklch(0.09 0 0);
   border: 1px solid oklch(1 0 0 / 6%);
 }
 .nav-pill a {
   position: relative;
   padding: 0.45rem 1rem;
   border-radius: 9999px;
-  font-size: 0.9rem;
-  color: oklch(0.7 0 0);
+  font-size: 0.85rem;
+  color: oklch(0.6 0 0);
   transition: color 0.15s ease, background-color 0.15s ease;
 }
 .nav-pill a:hover { color: var(--color-foreground); }
 .nav-pill a[data-status="active"] {
   color: var(--color-foreground);
-  background: oklch(0.16 0 0);
+  background: oklch(0.15 0 0);
   box-shadow: inset 0 0 0 1px oklch(1 0 0 / 8%);
 }
 .nav-pill a[data-status="active"]::after {
@@ -167,13 +187,85 @@
   transform: translateX(-50%);
 }
 
-/* glow gradient bg behind hero */
+/* ===== Glass / Glow ===== */
+.glass {
+  backdrop-filter: blur(24px) saturate(1.3);
+  background: oklch(1 0 0 / 0.03);
+  border: 1px solid oklch(1 0 0 / 0.06);
+}
+.glass-strong {
+  backdrop-filter: blur(40px) saturate(1.5);
+  background: oklch(1 0 0 / 0.05);
+  border: 1px solid oklch(1 0 0 / 0.08);
+}
+.glow-card {
+  box-shadow: var(--shadow-glow);
+}
+.glow-accent {
+  box-shadow: 0 0 60px oklch(0.78 0.18 150 / 0.12), 0 0 0 1px oklch(1 0 0 / 5%);
+}
+
+/* ===== Hero glow ===== */
 .hero-glow::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(800px 400px at 50% 0%, oklch(0.78 0.18 150 / 0.10), transparent 60%),
-    radial-gradient(600px 300px at 50% 100%, oklch(0.78 0.18 150 / 0.06), transparent 60%);
+    radial-gradient(900px 450px at 50% 0%, oklch(0.78 0.18 150 / 0.08), transparent 60%),
+    radial-gradient(600px 300px at 30% 80%, oklch(0.70 0.15 240 / 0.04), transparent 60%),
+    radial-gradient(600px 300px at 70% 80%, oklch(0.72 0.14 195 / 0.04), transparent 60%);
   pointer-events: none;
 }
+
+/* ===== Animations ===== */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.78 0.18 150 / 0.3); }
+  50% { box-shadow: 0 0 20px 4px oklch(0.78 0.18 150 / 0.15); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-fade-in-up { animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-in { animation: fade-in 0.5s ease both; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+.animate-status-pulse { animation: status-pulse 2s ease-in-out infinite; }
+
+/* Stagger delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 10%);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: oklch(1 0 0 / 18%); }

@@ -4,7 +4,7 @@ export type Session = {
   username: string;
   tag: string;
   avatar: string;
-  role: "atendente" | "candidato";
+  role: "atendente" | "supervisor" | "recrutador" | "candidato";
 };
 
 const KEY = "ss_session";
@@ -32,4 +32,20 @@ export const MOCK_AGENT: Session = {
   tag: "#0001",
   avatar: "L",
   role: "atendente",
+};
+
+export const MOCK_SUPERVISOR: Session = {
+  id: "284729301847292",
+  username: "ana.coord",
+  tag: "#0002",
+  avatar: "A",
+  role: "supervisor",
+};
+
+export const MOCK_RECRUITER: Session = {
+  id: "384729301847293",
+  username: "rafa.rh",
+  tag: "#0003",
+  avatar: "R",
+  role: "recrutador",
 };
